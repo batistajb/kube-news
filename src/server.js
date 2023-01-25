@@ -50,6 +50,7 @@ app.get('/', async (req, res) => {
 });
 
 models.initDatabase();
-app.listen(8080);
+const PORT_APP = process.env.PORT_APP || 8080;
+app.listen(PORT_APP);
 
 console.log('Aplicação rodando na porta 8080');
