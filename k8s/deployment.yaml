@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+spec:
+  selector:
+    matchLabels:
+      app: postgres-database
+  template:
+    metadata:
+        labels:
+            app: postgres-database
+    spec:
+      containers:
+        - name: postgres-container
+          image: postgres:15.1
+          ports:
+          - containerPort: 5432
+          env:
+          - name: POSTGRES_PASSWORD
+            value: "$kube#news"
+          - name: POSTGRES_USER
+            value: "kubenews"
+          - name: POSTGRES_DB
+            value: "kube_news"
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+spec:
+    selector:
+        app: postgres-database
+    ports:
+      - port: 5432
+    type: ClusterIP
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-blog-deployment
+spec:
+  selector:
+    matchLabels:
+      app: web-blog
+  template:
+    metadata:
+      labels:
+        app: web-blog
+    spec:
+      containers:
+        - name: web-blog-container
+          image: jbbatista/kube-news:aula-2
+          ports:
+            - containerPort: 8080
+          env:
+            - name: POSTGRES_PASSWORD
+              value: "$kube#news"
+            - name: POSTGRES_USER
+              value: "kubenews"
+            - name: POSTGRES_DB
+              value: "kube_news"
+            - name: POSTGRES_DB_HOST
+              value: "postgres-service"
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-blog-service
+spec:
+  selector:
+    app: web-blog
+  ports:
+    - port: 80
+      targetPort: 8080
+      nodePort: 30000
+  type: NodePort

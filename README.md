@@ -13,3 +13,5 @@ DB_USERNAME => Usuário do banco de dados.
 DB_PASSWORD => Senha do usuário do banco de dados.
 
 DB_HOST => Endereço do banco de dados.
+
+[![alt text](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white "GitHub")](https://github.com/batistajb/kube-news)
