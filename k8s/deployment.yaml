@@ -54,7 +54,7 @@ spec:
     spec:
       containers:
         - name: web-blog-container
-          image: jbbatista/kube-news:aula-2
+          image: jbbatista/kube-news:{{TAG}}
           ports:
             - containerPort: 8080
           env:
